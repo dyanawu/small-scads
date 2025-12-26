@@ -4,7 +4,7 @@ use <MCAD/shapes/3Dshapes.scad>
 $fa = 1;
 $fs = 0.1;
 
-wall = 2;
+wall = 1.4;
 
 // outside of torch
 t_height = 28;

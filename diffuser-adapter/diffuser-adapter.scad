@@ -1,60 +1,80 @@
 include <MCAD/units/metric.scad>
 use <MCAD/shapes/3Dshapes.scad>
+use <MCAD/array/polar.scad>
 
 $fa = 1;
 $fs = 0.1;
 
 wall = 1.4;
 
-// outside of torch
-t_height = 28;
-t_dia = 47.5;
+// measure outside of smaller thing
+s_height = 29;
+s_dia = 47.3;
 
+// measure outside of bigger thing
+b_height = 9;
+b_dia = 49.3;
 
-// inside of diffuser
-d_height = 6.5;
-d_dia = 40;
+cable_tie = 3;
 
 module hole() {
-  ih = d_height + wall + (epsilon * 2);
-  id = d_dia - (wall * 2);
+  h = s_height + wall + (epsilon * 2);
+  d = s_dia;
 
-  cylinder(ih, d = id);
+  cylinder(h, d = d);
 }
 
 
-module d_tube() {
-  oh = d_height + wall;
-  od = d_dia;
-
-  ih = d_height + wall + (epsilon * 2);
-  id = d_dia - (wall * 2);
+module s_tube() {
+  oh = s_height + wall;
+  od = s_dia + (wall * 2);
 
   difference() {
     cylinder(oh, d = od);
     translate(Z * -epsilon) hole();
-    translate(Z * (d_height * 0.56)) torus(d_dia/2 + wall * 0.4, d_dia/2 - wall * 0.4);
+    rotate([0, 0, 60]) slit(wall*4, wall, s_height, 120, 3, (s_dia/2) - wall * 3);
+    #tie_slot((s_dia/2 + (wall*2/3) + epsilon), s_height * 0.2, wall/3, cable_tie);
+
   }
 }
 
-module t_tube() {
-  oh = t_height + wall;
-  od = t_dia + (wall * 2);
+module b_tube() {
+  oh = b_height + wall;
+  od = b_dia + (wall * 2);
   
-  ih = t_height + epsilon;
-  id = t_dia;
+  ih = b_height + epsilon;
+  id = b_dia;
   
   difference() {
     cylinder(oh, d = od);
     translate(Z * wall)
       cylinder(ih, d = id);
     translate(Z * -epsilon) hole();
+    slit(wall*4, wall, b_height, 120, 3, (b_dia/2) - wall * 3, wall);
+    #tie_slot((b_dia/2 + (wall*2/3) + epsilon), b_height * 0.6, wall/3, cable_tie);
+
   }
 }
 
-d_tube();
-translate(Z * d_height) t_tube();
+
+module slit(l, t, h, a, c, r, u = 0) {
+  s_len = l;
+  s_thick = t;
+  s_height = h;
+  mcad_array_polar(a, c, r)
+  translate([s_len, 0, (s_height/2) + u])
+    #cube([s_len, s_thick, s_height], center = true);
+}
+
+module tie_slot(offset_out, offset_up, depth, height) {
+translate(Z * offset_up)
+  rotate_extrude() translate([offset_out, 0, 0]) square([depth, height]);
+}
 
 
+module assembled() {
+  s_tube();
+  translate(Z * s_height) b_tube();
+}
 
-
+assembled();

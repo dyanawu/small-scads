@@ -11,12 +11,12 @@ $fs = 0.1;
 */
 
 cell_length = 36;
-cell_dia = 18;
-wall = 1.5;
+cell_dia = 17.5;
+wall = 1.2;
 
 cell_count = 2;
 
-outer_length = cell_length * 0.6;
+outer_length = cell_length * .95;
 outer_dia = cell_dia + wall * 2;
 
 hole_dia = cell_dia/2;

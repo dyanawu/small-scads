@@ -6,17 +6,17 @@ use <MCAD/shapes/3Dshapes.scad>
 $fs = 0.4;
 $fa = 1;
 
-plaque_text = "400";
+plaque_text = "BOB";
 
 thickness = 2;
-length = 80;
+length = 90;
 depth = 40;
 
 rim_thickness = 3;
 rim_width = 3;
 
-text_scale = [0.9, 0.8];
-text_offset = [-0.5, 0.5];
+text_scale = [0.8, 0.8];
+text_offset = [1.5, 0];
 font = "Gunplay:style=Regular";
 
 hole_size = [10, 10];

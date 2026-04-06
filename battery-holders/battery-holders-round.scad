@@ -10,8 +10,13 @@ $fs = 0.1;
   123 + slop: 36x18
 */
 
-cell_length = 36;
-cell_dia = 17.5;
+// cr123A
+// cell_length = 36;
+// cell_dia = 17.5;
+
+// 21700
+cell_length = 77;
+cell_dia = 23.5;
 wall = 1.2;
 
 cell_count = 2;
